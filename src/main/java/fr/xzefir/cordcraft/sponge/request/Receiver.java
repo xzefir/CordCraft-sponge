@@ -55,6 +55,7 @@ public class Receiver extends NanoHTTPD {
             URL u = new URL(url);
             HttpURLConnection con = (HttpURLConnection) u.openConnection();
             con.setRequestMethod("GET");
+            con.setConnectTimeout(2500);
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             in.close();
             con.disconnect();
@@ -70,6 +71,7 @@ public class Receiver extends NanoHTTPD {
             URL u = new URL(url);
             HttpURLConnection con = (HttpURLConnection) u.openConnection();
             con.setRequestMethod("GET");
+            con.setConnectTimeout(2500);
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
