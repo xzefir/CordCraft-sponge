@@ -8,11 +8,11 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 public class DiscordMessage {
 
     public static void sendMessage(String msg) {
-        Text messagetext = TextSerializers.FORMATTING_CODE.deserialize(msg);
+        Text textMessage = TextSerializers.FORMATTING_CODE.deserialize(msg);
 
         CordCraft.getLogger().info(msg);
         for (Player OnlinePlayer : Sponge.getServer().getOnlinePlayers()){
-            OnlinePlayer.sendMessage(messagetext);
+            OnlinePlayer.sendMessage(textMessage);
         }
     }
 }
