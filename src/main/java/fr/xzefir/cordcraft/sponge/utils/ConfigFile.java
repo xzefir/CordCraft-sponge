@@ -11,10 +11,11 @@ import java.nio.file.Paths;
 
 public class ConfigFile {
 
-    public static boolean ConfigCreate(String fileEmplacement, File dataFile) {
+    public static boolean configCreate(String fileEmplacement, File dataFile) {
         if(!dataFile.isFile()) {
             try {
-                dataFile.createNewFile();
+                if (dataFile.createNewFile())
+                    CordCraft.getLogger().info("ConfigFile : Successfully created !");
 
                 FileWriter dataFileWrite = new FileWriter(fileEmplacement);
                 dataFileWrite.write("{\"fileVersion\":1}");
@@ -24,23 +25,24 @@ public class ConfigFile {
                 return false;
             }
         }
+
         return true;
     }
 
-    public static boolean ConfigUpdate(String fileEmplacement) {
-        String dataJSON = "";
+    public static boolean configUpdate(String fileEmplacement) {
+        String dataJSON;
 
         try {
             dataJSON = new String(Files.readAllBytes(Paths.get(fileEmplacement)));
         }
-        catch (IOException e) {
+        catch (IOException ignored) {
             return false;
         }
 
         JSONObject dataParse = new JSONObject(dataJSON);
 
-        if(dataParse.getInt("fileVersion") != CordCraft.versionDataFile) {
-            dataParse.put("fileVersion", CordCraft.versionDataFile);
+        if(dataParse.getInt("fileVersion") != CordCraft.VERSION_DATA_FILE) {
+            dataParse.put("fileVersion", CordCraft.VERSION_DATA_FILE);
 
             String[] valueName = {"token", "guildID", "plugin_port", "enable"};
             String[] valueDefault = {GenerateToken.createToken(), "", "", "true"};
@@ -59,21 +61,20 @@ public class ConfigFile {
             file.write(dataParse.toString());
             file.flush();
 
-        } catch (IOException e) {
+        } catch (IOException ignored) {
             return false;
         }
 
         return true;
     }
 
-    public static boolean ConfigSetValueFromFile(String fileEmplacement) {
-
-        String dataJSON = "";
+    public static boolean configSetValueFromFile(String fileEmplacement) {
+        String dataJSON;
 
         try {
             dataJSON = new String(Files.readAllBytes(Paths.get(fileEmplacement)));
         }
-        catch (IOException e) {
+        catch (IOException ignored) {
             return false;
         }
 

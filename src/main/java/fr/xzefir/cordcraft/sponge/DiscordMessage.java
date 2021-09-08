@@ -8,6 +8,7 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 public class DiscordMessage {
 
     public static void sendMessage(String msg) {
+
         Text textMessage = TextSerializers.FORMATTING_CODE.deserialize(msg);
 
         CordCraft.getLogger().info(msg);

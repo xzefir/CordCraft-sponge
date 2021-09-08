@@ -21,26 +21,27 @@ public class Receiver extends NanoHTTPD {
 
     @Override
     public Response serve(IHTTPSession session) {
-        Map<String, String> parms = session.getParms();
+        Map<String, String> params = session.getParms();
 
-        String msg = GetStringURL(String.format(CordCraft.API_URL + "?action=testConnect&token=%s&guildid=%s", CordCraft.token, CordCraft.guildID));
-        String token = parms.get("token");
-        String guildID = parms.get("guildID");
-        String action = parms.get("action");
+        String msg = getStringURL(String.format(CordCraft.API_URL + "?action=testConnect&token=%s&guildid=%s", CordCraft.token, CordCraft.guildID));
+        String token = params.get("token");
+        String guildID = params.get("guildID");
+        String action = params.get("action");
 
-        if (parms.get("version") != null)
+        if (params.get("version") != null)
             msg = CordCraft.VERSION;
         else if (token != null && guildID != null) {
             if (token.equals(CordCraft.token) && guildID.equals(CordCraft.guildID)) {
                 if (action.equals("sendMessage")) {
-                    String message = parms.get("msg");
+                    String message = params.get("msg");
                     DiscordMessage.sendMessage(message);
                 }
                 if (action.equals("infoServ")) {
                     String tps = String.valueOf(Math.round(Sponge.getServer().getTicksPerSecond()));
-                    String playerOnline = String.valueOf(Sponge.getServer().getOnlinePlayers().stream().count());
-                    String maxplayer = String.valueOf(Sponge.getServer().getMaxPlayers());
-                    msg = String.format("%s-%s-%s", tps, playerOnline, maxplayer);
+                    String playerOnline = String.valueOf((long) Sponge.getServer().getOnlinePlayers().size());
+                    String maxPlayer = String.valueOf(Sponge.getServer().getMaxPlayers());
+
+                    msg = String.format("%s-%s-%s", tps, playerOnline, maxPlayer);
                 }
                 else if (action.equals("testConnection"))
                     msg = "true";
@@ -50,7 +51,7 @@ public class Receiver extends NanoHTTPD {
         return newFixedLengthResponse(msg);
     }
 
-    public static void SimplePingURL(String url) {
+    public static void simplePingURL(String url) {
         try{
             URL u = new URL(url);
             HttpURLConnection con = (HttpURLConnection) u.openConnection();
@@ -65,7 +66,7 @@ public class Receiver extends NanoHTTPD {
         }
     }
 
-    public static String GetStringURL(String url) {
+    public static String getStringURL(String url) {
         String result = "";
         try{
             URL u = new URL(url);
@@ -76,7 +77,7 @@ public class Receiver extends NanoHTTPD {
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
             String inputLine;
-            StringBuffer content = new StringBuffer();
+            StringBuilder content = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
             }

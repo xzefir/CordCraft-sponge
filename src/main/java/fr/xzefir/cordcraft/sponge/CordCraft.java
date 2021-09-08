@@ -37,7 +37,7 @@ public class CordCraft {
 
     public static final String API_URL = "http://vps.craftmoney.fr:27980/";
     public static final String VERSION = "1.0.1";
-    public static final int versionDataFile = 3;
+    public static final int VERSION_DATA_FILE = 3;
 
     public static String token = "";
     public static String guildID = "";
@@ -47,14 +47,15 @@ public class CordCraft {
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
         instance = this;
-        String fileEmplacement = privateConfigDir.toString() + ".json";
+
+        String fileEmplacement = privateConfigDir + ".json";
         File dataFile = new File(fileEmplacement);
 
-        if (!ConfigFile.ConfigCreate(fileEmplacement, dataFile))
+        if (!ConfigFile.configCreate(fileEmplacement, dataFile))
             logger.error("ConfigFile : Error creating config file.");
-        if (!ConfigFile.ConfigUpdate(fileEmplacement))
+        if (!ConfigFile.configUpdate(fileEmplacement))
             logger.error("ConfigFile : Error update config file.");
-        if (!ConfigFile.ConfigSetValueFromFile(fileEmplacement))
+        if (!ConfigFile.configSetValueFromFile(fileEmplacement))
             logger.error("ConfigFile : Error loading config file.");
 
         if (enable.equals("true")) {

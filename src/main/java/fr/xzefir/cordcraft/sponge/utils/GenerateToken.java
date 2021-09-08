@@ -7,15 +7,12 @@ import org.json.JSONObject;
 public class GenerateToken {
 
     public static String createToken() {
-        String token = "";
 
-        String API_URL = "https://api.motdepasse.xyz/create/?include_digits&include_lowercase&include_uppercase&password_length=42&quantity=1";
-        String JSON = Receiver.GetStringURL(API_URL);
+        String apiUrl = "https://api.motdepasse.xyz/create/?include_digits&include_lowercase&include_uppercase&password_length=42&quantity=1";
+        String json = Receiver.getStringURL(apiUrl);
 
-        JSONObject dataParse = new JSONObject(JSON);
+        JSONObject dataParse = new JSONObject(json);
 
-        token = dataParse.getJSONArray("passwords").getString(0);
-
-        return token;
+        return dataParse.getJSONArray("passwords").getString(0);
     }
 }
